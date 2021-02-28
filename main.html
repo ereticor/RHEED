@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href='./style.css' rel='stylesheet'/>
+</head>
+<body>
+   <div class="app-container">
+        <div id="inputparameters">
+            <button data-modal-target="#modal">Lattice type</button>
+            <div class="modal" id="modal">
+              <div class="modal-header">
+                <div class="title">Lattice type</div>
+                <button data-close-button class="close-button">&times;</button>
+              </div>
+              <div class="modal-body">
+                <div class="modal-body-container">
+                    <div class="lattice-card">
+                        <label for="Obq"><img src="./Obq.png" /></label>
+                        <div class="lattice-card-contols">
+                            <input type="radio" name="check" value="1" id="Obq" class="radio" />
+                            <span class="lattice-card-name">
+                                Oblique (monoclinic)
+                            </span>
+                        </div>
+                    </div>
+                    <div class="lattice-card">
+                        <label for="Rec"><img src="./Rec.png" /></label>
+                        <div class="lattice-card-contols">
+                            <input type="radio" name="check" value="2" id="Rec" class="radio"/>
+                            <span class="lattice-card-name">
+                                Rectangular (orthorhombic)
+                            </span>
+                        </div>
+                    </div>
+                    <div class="lattice-card">
+                        <label for="Cent"><img src="./Cent.png" /></label>
+                        <div class="lattice-card-contols">
+                            <input type="radio" name="check" value="3" id="Cent" class="radio"/>
+                            <span class="lattice-card-name">
+                                Centered rectangular (orthorhombic)
+                            </span>
+                        </div>
+                    </div>
+                    <div class="lattice-card">
+                        <label for="Hex"><img src="./Hex.png" /></label>
+                        <div class="lattice-card-contols">
+                            <input type="radio" name="check" value="4" id="Hex" class="radio"/>
+                            <span class="lattice-card-name">
+                                Hexagonal
+                            </span>
+                        </div>
+                    </div>
+                    <div class="lattice-card">
+                        <label for="Sqr"><img src="./Sqr.png" /></label>
+                        <div class="lattice-card-contols">
+                            <input type="radio" name="check" value="5" id="Sqr" class="radio"/>
+                            <span class="lattice-card-name">
+                                Square (tetragonal)
+                            </span>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div id="overlay"></div>
+            <p>Electron energy[eV * 10<sup><small>3</small></sup>, 10-250]</p>
+                <input type="text" id="field1" value="60"/><br>
+            <p>Circle radius[<span>&#8491;</span><sup><small>-1</small></sup>, 0.2-1]</p>
+                <input type="text" id="field2" value="0.7"/><br>
+            <p>Lattice constant "a"[<span>&#8491;, 1-4]</p>
+                <input type="text" id="field3" value="2.46"/><br>
+            <div class="hideParameter">
+                <p>Lattice constant "b"[<span>&#8491;, 1-4]</p>
+                <input type="text" id="field4" value="2.46"/><br>
+            </div>
+            <div class="input-container1">
+                <p>Angle &#1138;</p>
+                <input type="text" id="field5" value="30"/><br> 
+                <input type="range" id="field6" min="30" max="90" step="1" value="0" /><br>
+            </div>
+            <p>Angle</p>
+            <div class="input-container">
+                <input type="text" id="field7" value="0"/><br> 
+                <input type="range" id="field8" min="0" max="360" step="1" value="0" /><br>
+            </div>
+            <div class="draw-buttons-container">
+                <!-- <button type="submit" id='singleDraw-button'>draw</button> -->
+                <button type="submit" id='rotate-button'>Rolling out</button>
+                <button type="submit" id='singleResult-button'>Data for single angle</button>
+                <button type="submit" disabled="disabled" id='result-button'>Data for the whole circle</button>
+            </div>
+       </div>
+       <div id="canvaswindow">
+            <canvas id="canvas1" width="800" height="120"></canvas>
+            <canvas id="canvas" width="800" height="800"></canvas>
+       </div>
+   </div>
+</body>
+<script src="./script.js">
+</script>
+</html>
