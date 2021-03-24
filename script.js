@@ -45,9 +45,21 @@ function closeModal(modal) {
   modal.classList.remove("active");
   overlay.classList.remove("active");
 }
+
+const outputSwitch = document.getElementById("output-switch");
+function switchPar() {
+  if (outputSwitch.checked == true) {
+    outputSwitch.value = 1599;
+  }
+  else {
+    outputSwitch.value = 799;
+  }
+}
+
 // const singleDrawButton = document.getElementById('singleDraw-button');
 // do this writible at the main page
 //const LatticeType = document.mainForm.check.value;
+
 var LatticeType;
 const rotateButton = document.getElementById("rotate-button");
 const singleResultButton = document.getElementById("singleResult-button");
@@ -355,7 +367,7 @@ function drawAll(angle) {
         let y0 = 0;
         spectreFill(x0, y0, x3, y3, x4, y4);
         angleSpectreArray = GetDataArray(angleSpectreArray, x3, x4);
-        angleSpectreString = angleSpectreArray.join(" ");
+        angleSpectreString = angleSpectreArray.join(" ").substring(0, outputSwitch.value);
         fillPoint1 = new Circle(x3, y3, 3, true, "blue");
         fillPoint2 = new Circle(x4, y4, 3, true, "blue");
         circleArray.push(fillPoint1);
@@ -409,7 +421,7 @@ resultButton.addEventListener("click", (ev) => {
     (4 * Math.PI) / (Math.sqrt(3) * columnsTilt.value)
   } \n`;
   const correctData = FinalResult.map((el) => el + "\n").join("");
-  writeTofile("lol.txt", initialData + correctData);
+  writeTofile("RotateResult.txt", initialData + correctData);
   FinalResult = [];
 });
 
