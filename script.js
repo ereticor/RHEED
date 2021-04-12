@@ -306,10 +306,10 @@ function drawAll(angle) {
   rowTilt = LatticeCase(rowTilt, columnTilt); //766666666666668fjhvkuyvbg87oto87tbo87t766666666666666666666666666rytfhtbfutfnkyfknfdkyntdtkyndknd
   let gjOleg = numberPerRow % 2;
   let gjOleg2 = (canvas.width / 50) % 2;
-  canvasContext.beginPath();
-  canvasContext.moveTo(0, -canvas.height / 2);
-  canvasContext.lineTo(0, canvas.height / 2);
-  canvasContext.stroke();
+  // canvasContext.beginPath(); // centering lines
+  // canvasContext.moveTo(0, -canvas.height / 2);
+  // canvasContext.lineTo(0, canvas.height / 2);
+  // canvasContext.stroke();
   canvasContext.beginPath();
   canvasContext.moveTo(-canvas.width / 2, 0);
   canvasContext.lineTo(canvas.width / 2, 0);
@@ -318,8 +318,8 @@ function drawAll(angle) {
   //Отрисовываем круги
   let redCircle = new Circle(0, 0 + rHuge, rHuge, false, "red");
   circleArray.push(redCircle);
-  circleArray.push(new Circle(0, 0, columnTilt * 4, false));
-  circleArray.push(new Circle(0, 0, columnTilt * 9, false));
+  // circleArray.push(new Circle(0, 0, columnTilt * 4, false)); // for size comparison
+  // circleArray.push(new Circle(0, 0, columnTilt * 9, false));
 
   let yTilt = (canvas.height / 2) * rowTilt - canvas.height / 2; // replace this with case
 
