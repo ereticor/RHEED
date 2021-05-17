@@ -64,7 +64,7 @@ var LatticeType;
 const rotateButton = document.getElementById("rotate-button");
 const singleResultButton = document.getElementById("singleResult-button");
 const resultButton = document.getElementById("result-button");
-const ewaldradius = document.getElementById("field1");
+const electronEnergy = document.getElementById("field1");
 const circleRadius = document.getElementById("field2");
 const columnsTilt = document.getElementById("field3");
 const rowsTilt = document.getElementById("field4");
@@ -289,7 +289,7 @@ function drawAll(angle) {
   canvasContext.translate(canvas.width / 2, canvas.height / 2);
   canvasContext1.fillStyle = "black";
   canvasContext1.fillRect(-canvas1.width, 0, canvas1.width * 2, canvas1.height);
-  let rHuge = 0.512 * Math.sqrt(1000 * parseFloat(ewaldradius.value)); // Ewald's radius
+  let rHuge = 0.512 * Math.sqrt(1000 * parseFloat(electronEnergy.value)); // Ewald's radius
   let radius = parseFloat(circleRadius.value); // circle radius
   let columnTilt = parseFloat(columnsTilt.value); // circles in x/y
   angle = checkParameter(angle, 0, 360);
@@ -399,8 +399,8 @@ rotateButton.addEventListener("click", (ev) => {
 });
 
 singleResultButton.addEventListener("click", (ev) => {
-  const initialData = `Electron energy: ${ewaldradius.value}, Ewald's Radius: ${
-    0.512 * Math.sqrt(1000 * ewaldradius.value)
+  const initialData = `Electron energy: ${electronEnergy.value}, Ewald's Radius: ${
+    0.512 * Math.sqrt(1000 * electronEnergy.value)
   }, Circle Radius: ${circleRadius.value}, Tilt: ${
     (4 * Math.PI) / (Math.sqrt(3) * columnsTilt.value)
   } \n`;
@@ -414,9 +414,9 @@ singleResultButton.addEventListener("click", (ev) => {
 resultButton.addEventListener("click", (ev) => {
   ev.target.disabled = true;
   const initialData = `Electron energy: ${
-    ewaldradius.value
+    electronEnergy.value
   } * 10^3, Ewald's Radius: ${
-    0.512 * Math.sqrt(1000 * ewaldradius.value)
+    0.512 * Math.sqrt(1000 * electronEnergy.value)
   }, Circle Radius: ${circleRadius.value}, Tilt: ${
     (4 * Math.PI) / (Math.sqrt(3) * columnsTilt.value)
   } \n`;
@@ -425,7 +425,7 @@ resultButton.addEventListener("click", (ev) => {
   FinalResult = [];
 });
 
-ewaldradius.addEventListener("input", (e) => {
+electronEnergy.addEventListener("input", (e) => {
   singleTimeDraw();
 });
 
