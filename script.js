@@ -47,6 +47,7 @@ function closeModal(modal) {
 }
 
 const outputSwitch = document.getElementById("output-switch");
+
 function switchPar() {
   if (outputSwitch.checked == true) {
     outputSwitch.value = 1599;
@@ -292,13 +293,12 @@ function drawAll(angle) {
   canvasContext1.fillStyle = "black";
   canvasContext1.fillRect(-canvas1.width, 0, canvas1.width * 2, canvas1.height);
   let rHugeTmp = 1000 * parseFloat(checkParameter(electronEnergy.value, 10, 250));
-  let rHuge = 15 * (electronEnergy > 50 ? 0.512 * Math.sqrt(rHugeTmp * (1 + rHugeTmp / electronRestEnergy)) : 0.512 * Math.sqrt(rHugeTmp)); // Ewald's radius
-  console.log(`${electronEnergy.value} + ${rHugeTmp} + ${rHuge / 15}`);
+  let rHuge = 15 * (rHugeTmp / 1000 > 50 ? 0.512 * Math.sqrt(rHugeTmp * (1 + rHugeTmp / electronRestEnergy)) : 0.512 * Math.sqrt(rHugeTmp)); // Ewald's radius
   let radius = parseFloat(circleRadius.value); // circle radius
   let columnTilt = parseFloat(columnsTilt.value); // circles in x/y
   angle = checkParameter(angle, 0, 360);
   radius = 15 * checkParameter(radius, 0.2, 1.5);
-  console.log(radius);
+  // console.log(radius);
   columnTilt =
     (30 * (4 * Math.PI)) / (Math.sqrt(3) * checkParameter(columnTilt, 1, 4));
   // let columnTiltReverse = (2 * Math.PI) / columnTilt;
@@ -402,8 +402,9 @@ rotateButton.addEventListener("click", (ev) => {
 });
 
 singleResultButton.addEventListener("click", (ev) => {
+  let rHugeTmp = 1000 * parseFloat(checkParameter(electronEnergy.value, 10, 250));
   const initialData = `Electron energy: ${electronEnergy.value} * 10^3 eV, Ewald's Radius: ${
-    electronEnergy > 50 ? 0.512 * Math.sqrt(1000 * electronEnergy.value * (1 + 1000 * electronEnergy.value / electronRestEnergy)) : 0.512 * Math.sqrt(1000 * electronEnergy.value)
+    rHugeTmp / 1000 > 50 ? 0.512 * Math.sqrt(rHugeTmp * (1 + rHugeTmp/ electronRestEnergy)) : 0.512 * Math.sqrt(rHugeTmp)
   } Å^-1, Circle Radius: ${circleRadius.value} Å^-1, Tilt: ${
     (4 * Math.PI) / (Math.sqrt(3) * columnsTilt.value)
   } Å^-1 \n`;
@@ -415,11 +416,12 @@ singleResultButton.addEventListener("click", (ev) => {
 });
 
 resultButton.addEventListener("click", (ev) => {
+  let rHugeTmp = 1000 * parseFloat(checkParameter(electronEnergy.value, 10, 250));
   ev.target.disabled = true;
   const initialData = `Electron energy: ${
     electronEnergy.value
   } * 10^3 eV, Ewald's Radius: ${
-    electronEnergy > 50 ? 0.512 * Math.sqrt(1000 * electronEnergy.value * (1 + 1000 * electronEnergy.value / electronRestEnergy)) : 0.512 * Math.sqrt(1000 * electronEnergy.value)
+    rHugeTmp / 1000 > 50 ? 0.512 * Math.sqrt(rHugeTmp * (1 + rHugeTmp / electronRestEnergy)) : 0.512 * Math.sqrt(rHugeTmp)
   } Å^-1, Circle Radius: ${circleRadius.value} Å^-1, Tilt: ${
     (4 * Math.PI) / (Math.sqrt(3) * columnsTilt.value)
   } Å^-1 \n`;
@@ -489,7 +491,7 @@ function hideParameters(id) {
 
 latticeContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("radio")) {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     hideParameters(e.target.id);
     LatticeType = Number(e.target.value);
     singleTimeDraw();
