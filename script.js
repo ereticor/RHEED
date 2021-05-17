@@ -74,6 +74,8 @@ const inputAngle = document.getElementById("field7");
 const rangeInput = document.getElementById("field8");
 const latticeContainer = document.querySelector(".modal-body-container");
 
+const electronRestEnergy = 511.0034 * Math.pow(10,3);
+
 let context;
 let niceArray = [];
 let recLineArray = [];
@@ -289,13 +291,14 @@ function drawAll(angle) {
   canvasContext.translate(canvas.width / 2, canvas.height / 2);
   canvasContext1.fillStyle = "black";
   canvasContext1.fillRect(-canvas1.width, 0, canvas1.width * 2, canvas1.height);
-  let rHuge = 0.512 * Math.sqrt(1000 * parseFloat(electronEnergy.value)); // Ewald's radius
+  let rHugeTmp = 1000 * parseFloat(checkParameter(electronEnergy.value, 10, 250));
+  let rHuge = 15 * (electronEnergy > 50 ? 0.512 * Math.sqrt(rHugeTmp * (1 + rHugeTmp / electronRestEnergy)) : 0.512 * Math.sqrt(rHugeTmp)); // Ewald's radius
+  console.log(`${electronEnergy.value} + ${rHugeTmp} + ${rHuge / 15}`);
   let radius = parseFloat(circleRadius.value); // circle radius
   let columnTilt = parseFloat(columnsTilt.value); // circles in x/y
   angle = checkParameter(angle, 0, 360);
-  radius = 30 * checkParameter(radius, 0.2, 1);
+  radius = 15 * checkParameter(radius, 0.2, 1.5);
   console.log(radius);
-  rHuge = 30 * checkParameter(rHuge, 50, 250);
   columnTilt =
     (30 * (4 * Math.PI)) / (Math.sqrt(3) * checkParameter(columnTilt, 1, 4));
   // let columnTiltReverse = (2 * Math.PI) / columnTilt;
@@ -399,11 +402,11 @@ rotateButton.addEventListener("click", (ev) => {
 });
 
 singleResultButton.addEventListener("click", (ev) => {
-  const initialData = `Electron energy: ${electronEnergy.value}, Ewald's Radius: ${
-    0.512 * Math.sqrt(1000 * electronEnergy.value)
-  }, Circle Radius: ${circleRadius.value}, Tilt: ${
+  const initialData = `Electron energy: ${electronEnergy.value} * 10^3 eV, Ewald's Radius: ${
+    electronEnergy > 50 ? 0.512 * Math.sqrt(1000 * electronEnergy.value * (1 + 1000 * electronEnergy.value / electronRestEnergy)) : 0.512 * Math.sqrt(1000 * electronEnergy.value)
+  } Å^-1, Circle Radius: ${circleRadius.value} Å^-1, Tilt: ${
     (4 * Math.PI) / (Math.sqrt(3) * columnsTilt.value)
-  } \n`;
+  } Å^-1 \n`;
   const singleCorrectData = angleSpectreString;
   writeTofile(
     "singleResult.txt",
@@ -415,11 +418,11 @@ resultButton.addEventListener("click", (ev) => {
   ev.target.disabled = true;
   const initialData = `Electron energy: ${
     electronEnergy.value
-  } * 10^3, Ewald's Radius: ${
-    0.512 * Math.sqrt(1000 * electronEnergy.value)
-  }, Circle Radius: ${circleRadius.value}, Tilt: ${
+  } * 10^3 eV, Ewald's Radius: ${
+    electronEnergy > 50 ? 0.512 * Math.sqrt(1000 * electronEnergy.value * (1 + 1000 * electronEnergy.value / electronRestEnergy)) : 0.512 * Math.sqrt(1000 * electronEnergy.value)
+  } Å^-1, Circle Radius: ${circleRadius.value} Å^-1, Tilt: ${
     (4 * Math.PI) / (Math.sqrt(3) * columnsTilt.value)
-  } \n`;
+  } Å^-1 \n`;
   const correctData = FinalResult.map((el) => el + "\n").join("");
   writeTofile("RotateResult.txt", initialData + correctData);
   FinalResult = [];
