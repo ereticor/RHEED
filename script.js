@@ -192,8 +192,7 @@ function checkParameter(x, min, max) {
  * @param {radius of a first circle(ewald for this)} r1
  * @param {radius of a second circle(circles for this)} r2
  */
-function checkIfIntersected(x1, y1, x2, y2, r1, r2) {
-  let L = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)); // L - line between center of Ewald and center of points
+function checkIfIntersected(r1, r2, L) {
   if (L > r1 + r2 || L < Math.abs(r1 - r2)) {
     return false;
   }
@@ -201,14 +200,13 @@ function checkIfIntersected(x1, y1, x2, y2, r1, r2) {
 }
 
 // finds intersected dots
-function intersectedDots(x1, y1, x2, y2, r1, r2) {
-  let c = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)); // length between centers
-  let d = (r2 * r2 + c * c - r1 * r1) / (2 * c); //
+function intersectedDots(x1, y1, x2, y2, r1, r2, L) {
+  let d = (r2 * r2 + L * L - r1 * r1) / (2 * L); //
   let h = Math.sqrt(r2 * r2 - d * d); //
-  x3 = ((x2 - x1) * d) / c + ((y2 - y1) * h) / c + x1; // shows the intersection
-  y3 = ((y2 - y1) * d) / c - ((x2 - x1) * h) / c + y1;
-  x4 = ((x2 - x1) * d) / c - ((y2 - y1) * h) / c + x1;
-  y4 = ((y2 - y1) * d) / c + ((x2 - x1) * h) / c + y1;
+  x3 = ((x2 - x1) * d) / L + ((y2 - y1) * h) / L + x1; // shows the intersection
+  y3 = ((y2 - y1) * d) / L - ((x2 - x1) * h) / L + y1;
+  x4 = ((x2 - x1) * d) / L - ((y2 - y1) * h) / L + x1;
+  y4 = ((y2 - y1) * d) / L + ((x2 - x1) * h) / L + y1;
   return {
     point1: {
       x: x3,
@@ -332,13 +330,11 @@ function drawAll(angle) {
       let fillPoint = new Circle(newX, newY, radius, true);
       let fillPoint1;
       let fillPoint2;
+      let pointToEvald = Math.sqrt(Math.pow(redCircle.x - newX, 2) + Math.pow(redCircle.y - newY, 2)); // line between center of Ewald and center of points
       let pointTypeStatus = checkIfIntersected(
-        redCircle.x,
-        redCircle.y,
-        newX,
-        newY,
         redCircle.r,
-        radius
+        radius,
+        pointToEvald
       );
       if (
         pointTypeStatus &&
@@ -353,7 +349,8 @@ function drawAll(angle) {
             redCircle.x,
             redCircle.y,
             redCircle.r,
-            radius
+            radius,
+            pointToEvald
           )
         );
         fillPoint = new Circle(newX, newY, radius, false, "red");
