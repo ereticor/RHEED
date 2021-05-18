@@ -194,19 +194,10 @@ function checkParameter(x, min, max) {
  */
 function checkIfIntersected(x1, y1, x2, y2, r1, r2) {
   let L = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)); // L - line between center of Ewald and center of points
-  if (L < r1) {
-    if (L + r2 >= r1) {
-      return true;
-    }
-  } else if (L > r1) {
-    if (L - r2 <= r1) {
-      return true;
-    }
-  } else if (L === r1) {
-    return true;
+  if (L > r1 + r2 || L < Math.abs(r1 - r2)) {
+    return false;
   }
-
-  return false;
+  return true;
 }
 
 // finds intersected dots
