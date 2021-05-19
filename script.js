@@ -298,6 +298,7 @@ function drawAll(angle) {
   rowTilt = LatticeCase(rowTilt, columnTilt); //766666666666668fjhvkuyvbg87oto87tbo87t766666666666666666666666666rytfhtbfutfnkyfknfdkyntdtkyndknd
   let gjOleg = numberPerRow % 2;
   let gjOleg2 = (canvas.width / 50) % 2;
+  canvasContext.strokeStyle = "black";
   // canvasContext.beginPath(); // centering lines
   // canvasContext.moveTo(0, -canvas.height / 2);
   // canvasContext.lineTo(0, canvas.height / 2);
