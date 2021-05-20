@@ -51,8 +51,7 @@ const outputSwitch = document.getElementById("output-switch");
 function switchPar() {
   if (outputSwitch.checked == true) {
     outputSwitch.value = 1599;
-  }
-  else {
+  } else {
     outputSwitch.value = 799;
   }
 }
@@ -69,14 +68,14 @@ const electronEnergy = document.getElementById("field1");
 const circleRadius = document.getElementById("field2");
 const columnsTilt = document.getElementById("field3");
 const rowsTilt = document.getElementById("field4");
-const rowsTiltScope = document.getElementById('replaceParameter')
+const rowsTiltScope = document.getElementById("replaceParameter");
 const TreshAngle = document.getElementById("field5");
 const TreshAngleInput = document.getElementById("field6");
 const inputAngle = document.getElementById("field7");
 const rangeInput = document.getElementById("field8");
 const latticeContainer = document.querySelector(".modal-body-container");
 
-const electronRestEnergy = 511.0034 * Math.pow(10,3);
+const electronRestEnergy = 511.0034 * Math.pow(10, 3);
 
 let context;
 let niceArray = [];
@@ -105,7 +104,7 @@ function LatticeCase(x, y) {
     case 3:
       x =
         (30 * (4 * Math.PI)) /
-        (Math.sqrt(3) * checkParameter(rowsTilt.value, 2, 8) / 2); //change this for /2
+        ((Math.sqrt(3) * checkParameter(rowsTilt.value, 2, 8)) / 2); //change this for /2
       koef = 1;
       koef2 = 0;
       rowsTiltScope.innerText = rowsTiltScope.innerText.replace("1-4", "2-8");
@@ -283,8 +282,13 @@ function drawAll(angle) {
   canvasContext.translate(canvas.width / 2, canvas.height / 2);
   canvasContext1.fillStyle = "black";
   canvasContext1.fillRect(-canvas1.width, 0, canvas1.width * 2, canvas1.height);
-  let rHugeTmp = 1000 * parseFloat(checkParameter(electronEnergy.value, 10, 250));
-  let rHuge = 15 * (rHugeTmp / 1000 > 50 ? 0.512 * Math.sqrt(rHugeTmp * (1 + rHugeTmp / electronRestEnergy)) : 0.512 * Math.sqrt(rHugeTmp)); // Ewald's radius
+  let rHugeTmp =
+    1000 * parseFloat(checkParameter(electronEnergy.value, 10, 250));
+  let rHuge =
+    15 *
+    (rHugeTmp / 1000 > 50
+      ? 0.512 * Math.sqrt(rHugeTmp * (1 + rHugeTmp / electronRestEnergy))
+      : 0.512 * Math.sqrt(rHugeTmp)); // Ewald's radius
   let radius = parseFloat(circleRadius.value); // circle radius
   let columnTilt = parseFloat(columnsTilt.value); // circles in x/y
   angle = checkParameter(angle, 0, 360);
@@ -334,7 +338,9 @@ function drawAll(angle) {
       let fillPoint = new Circle(newX, newY, radius, true);
       let fillPoint1;
       let fillPoint2;
-      let pointToEvald = Math.sqrt(Math.pow(redCircle.x - newX, 2) + Math.pow(redCircle.y - newY, 2)); // line between center of Ewald and center of points
+      let pointToEvald = Math.sqrt(
+        Math.pow(redCircle.x - newX, 2) + Math.pow(redCircle.y - newY, 2)
+      ); // line between center of Ewald and center of points
       let pointTypeStatus = checkIfIntersected(
         redCircle.r,
         radius,
@@ -362,7 +368,9 @@ function drawAll(angle) {
         let y0 = 0;
         spectreFill(x0, y0, x3, y3, x4, y4);
         angleSpectreArray = GetDataArray(angleSpectreArray, x3, x4);
-        angleSpectreString = angleSpectreArray.join(" ").substring(0, outputSwitch.value);
+        angleSpectreString = angleSpectreArray
+          .join(" ")
+          .substring(0, outputSwitch.value);
         fillPoint1 = new Circle(x3, y3, 3, true, "blue");
         fillPoint2 = new Circle(x4, y4, 3, true, "blue");
         circleArray.push(fillPoint1);
@@ -394,13 +402,33 @@ rotateButton.addEventListener("click", (ev) => {
 });
 
 singleResultButton.addEventListener("click", (ev) => {
-  let rHugeTmp = 1000 * parseFloat(checkParameter(electronEnergy.value, 10, 250));
-  const initialData = `Electron energy: ${electronEnergy.value} * 10^3 eV, Ewald's Radius: ${
-    rHugeTmp / 1000 > 50 ? 0.512 * Math.sqrt(rHugeTmp * (1 + rHugeTmp/ electronRestEnergy)) : 0.512 * Math.sqrt(rHugeTmp)
-  } Å^-1, Circle Radius: ${circleRadius.value} Å^-1, Tilt: ${
-    (4 * Math.PI) / (Math.sqrt(3) * columnsTilt.value)
-  } Å^-1 \n`;
+  let rHugeTmp =
+    1000 * parseFloat(checkParameter(electronEnergy.value, 10, 250));
+  let rowTiltVal = rowsTiltScope.innerText.includes("1-4")
+    ? checkParameter(rowsTilt.value, 1, 4)
+    : checkParameter(rowsTilt.value, 2, 8) / 2;
+  const tiltB = document
+    .querySelector(".hideParameter")
+    .classList.contains("hidden")
+    ? ""
+    : `, Tilt b: ${(4 * Math.PI) / (Math.sqrt(3) * rowTiltVal)} Å^-1`;
+
+  const initialData = `Electron energy: ${
+    rHugeTmp / 1000
+  } * 10^3 eV, Ewald's Radius: ${
+    rHugeTmp / 1000 > 50
+      ? 0.512 * Math.sqrt(rHugeTmp * (1 + rHugeTmp / electronRestEnergy))
+      : 0.512 * Math.sqrt(rHugeTmp)
+  } Å^-1, Circle Radius: ${checkParameter(
+    circleRadius.value,
+    0.2,
+    1.5
+  )} Å^-1, Tilt a: ${
+    (4 * Math.PI) / (Math.sqrt(3) * checkParameter(columnsTilt.value, 1, 4))
+  } Å^-1${tiltB}\n`;
+
   const singleCorrectData = angleSpectreString;
+
   writeTofile(
     "singleResult.txt",
     initialData + "Angle " + inputAngle.value + ": " + singleCorrectData
@@ -408,16 +436,35 @@ singleResultButton.addEventListener("click", (ev) => {
 });
 
 resultButton.addEventListener("click", (ev) => {
-  let rHugeTmp = 1000 * parseFloat(checkParameter(electronEnergy.value, 10, 250));
   ev.target.disabled = true;
+
+  let rHugeTmp =
+    1000 * parseFloat(checkParameter(electronEnergy.value, 10, 250));
+  let rowTiltVal = rowsTiltScope.innerText.includes("1-4")
+    ? checkParameter(rowsTilt.value, 1, 4)
+    : checkParameter(rowsTilt.value, 2, 8) / 2;
+  const tiltB = document
+    .querySelector(".hideParameter")
+    .classList.contains("hidden")
+    ? ""
+    : `, Tilt b: ${(4 * Math.PI) / (Math.sqrt(3) * rowTiltVal)} Å^-1`;
+
   const initialData = `Electron energy: ${
-    electronEnergy.value
+    rHugeTmp / 1000
   } * 10^3 eV, Ewald's Radius: ${
-    rHugeTmp / 1000 > 50 ? 0.512 * Math.sqrt(rHugeTmp * (1 + rHugeTmp / electronRestEnergy)) : 0.512 * Math.sqrt(rHugeTmp)
-  } Å^-1, Circle Radius: ${circleRadius.value} Å^-1, Tilt: ${
-    (4 * Math.PI) / (Math.sqrt(3) * columnsTilt.value)
-  } Å^-1 \n`;
+    rHugeTmp / 1000 > 50
+      ? 0.512 * Math.sqrt(rHugeTmp * (1 + rHugeTmp / electronRestEnergy))
+      : 0.512 * Math.sqrt(rHugeTmp)
+  } Å^-1, Circle Radius: ${checkParameter(
+    circleRadius.value,
+    0.2,
+    1.5
+  )} Å^-1, Tilt a: ${
+    (4 * Math.PI) / (Math.sqrt(3) * checkParameter(columnsTilt.value, 1, 4))
+  } Å^-1${tiltB}\n`;
+
   const correctData = FinalResult.map((el) => el + "\n").join("");
+
   writeTofile("RotateResult.txt", initialData + correctData);
   FinalResult = [];
 });
