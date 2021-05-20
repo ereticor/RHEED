@@ -85,15 +85,15 @@ let FinalResult = [];
 function LatticeCase(x, y) {
   switch (LatticeType) {
     case 1:
-      h =
+      x =
         (30 * (4 * Math.PI)) /
         (Math.sqrt(3) * checkParameter(rowsTilt.value, 1, 4));
       a =
         (Math.PI * checkParameter(parseFloat(TreshAngle.value), 30, 90)) / 180;
-      x = Math.sin(a) * h;
+      h = Math.sin(a) * x;
       koef = 0;
-      koef2 = Math.sqrt(Math.pow(h, 2) - Math.pow(x, 2));
-      return x;
+      koef2 = Math.sqrt(Math.pow(x, 2) - Math.pow(h, 2));
+      return h;
     case 2:
       x =
         (30 * (4 * Math.PI)) /
