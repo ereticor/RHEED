@@ -69,6 +69,7 @@ const electronEnergy = document.getElementById("field1");
 const circleRadius = document.getElementById("field2");
 const columnsTilt = document.getElementById("field3");
 const rowsTilt = document.getElementById("field4");
+const rowsTiltScope = document.getElementById('replaceParameter')
 const TreshAngle = document.getElementById("field5");
 const TreshAngleInput = document.getElementById("field6");
 const inputAngle = document.getElementById("field7");
@@ -104,9 +105,10 @@ function LatticeCase(x, y) {
     case 3:
       x =
         (30 * (4 * Math.PI)) /
-        (Math.sqrt(3) * checkParameter(rowsTilt.value, 1, 4)); //change this for /2
+        (Math.sqrt(3) * checkParameter(rowsTilt.value, 2, 8) / 2); //change this for /2
       koef = 1;
       koef2 = 0;
+      rowsTiltScope.innerText = rowsTiltScope.innerText.replace("1-4", "2-8");
       return x;
     default:
       x = (y * Math.sqrt(3)) / 2;
@@ -295,6 +297,7 @@ function drawAll(angle) {
   let threshold = 0;
   let numberPerRow = canvas.width / columnTilt;
   let rowTilt = 0;
+  rowsTiltScope.innerText = rowsTiltScope.innerText.replace("2-8", "1-4");
   rowTilt = LatticeCase(rowTilt, columnTilt); //766666666666668fjhvkuyvbg87oto87tbo87t766666666666666666666666666rytfhtbfutfnkyfknfdkyntdtkyndknd
   let gjOleg = numberPerRow % 2;
   let gjOleg2 = (canvas.width / 50) % 2;
